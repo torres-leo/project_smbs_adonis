@@ -1,0 +1,48 @@
+version: '3'
+services:
+  mysql:
+    image: mariadb:10.5.5
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+      MYSQL_USER: '${MYSQL_USER}'
+      MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
+      MYSQL_DATABASE: '${MYSQL_DB_NAME}'
+    volumes:
+      - mysqldata:/var/lib/mysql
+      - ./mysqlconfig:/etc/mysql/conf.d
+    env_file:
+      - .env
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - '${MYSQL_PORT}:${MYSQL_PORT}'
+  api:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '${PORT}:${PORT}'
+    depends_on:
+      - mysql
+    volumes:
+      - .:/app/
+      - /app/node_modules
+    command: >
+      sh -c "yarn && yarn migration:run && yarn seed:run && yarn dev"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    env_file:
+      - .env
+    links:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+    ports:
+      - 80:80
+    depends_on:
+      - mysql
+volumes:
+  mysqldata: {}
