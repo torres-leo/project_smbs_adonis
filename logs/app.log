@@ -1,0 +1,32 @@
+[2022-10-31T19:54:49.554] [INFO] default - Topic with id: 102 was Not Found. Try with other ID.
+[2022-10-31T19:54:49.556] [INFO] default - Exception: E_ROW_NOT_FOUND: Row not found
+    at ModelQueryBuilder.firstOrFail (/app/node_modules/@adonisjs/lucid/build/src/Orm/QueryBuilder/index.js:426:19)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at TopicsController.getTopic (/app/app/Controllers/Http/TopicsController.ts:25:21)
+    at Object.PreCompiler.runRouteHandler [as fn] (/app/node_modules/@adonisjs/http-server/build/src/Server/PreCompiler/index.js:47:31)
+    at Server.handleRequest (/app/node_modules/@adonisjs/http-server/build/src/Server/index.js:108:13)
+[2022-10-31T19:57:48.885] [INFO] default - Topic with id: 102 was Not Found. Try with other ID.
+[2022-10-31T20:22:49.913] [INFO] default - Topic with id: 102 was Not Found. Try with other ID.
+[2022-10-31T20:24:39.584] [INFO] default - Topic with id: 102 was Not Found. Try with other ID.
+[2022-10-31T20:24:46.326] [INFO] default - Topic with id: 101 was Not Found. Try with other ID.
+[2022-10-31T20:28:07.835] [INFO] default - Exception: E_ROW_NOT_FOUND: Row not found
+    at ModelQueryBuilder.firstOrFail (/app/node_modules/@adonisjs/lucid/build/src/Orm/QueryBuilder/index.js:426:19)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at TopicsController.update (/app/app/Controllers/Http/TopicsController.ts:49:21)
+    at Object.PreCompiler.runRouteHandler [as fn] (/app/node_modules/@adonisjs/http-server/build/src/Server/PreCompiler/index.js:47:31)
+    at Server.handleRequest (/app/node_modules/@adonisjs/http-server/build/src/Server/index.js:108:13)
+[2022-10-31T20:28:48.546] [INFO] default - Topic with id: 101 was Not Found. Try with other ID.
+[2022-10-31T20:30:28.915] [INFO] default - Topic with id: 1002 was Not Found. Try with other ID.
+[2022-10-31T20:40:53.135] [INFO] default - Exception: E_ROW_NOT_FOUND: Row not found
+    at ModelQueryBuilder.firstOrFail (/app/node_modules/@adonisjs/lucid/build/src/Orm/QueryBuilder/index.js:426:19)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at TopicsController.getTopic (/app/app/Controllers/Http/TopicsController.ts:25:21)
+    at Object.PreCompiler.runRouteHandler [as fn] (/app/node_modules/@adonisjs/http-server/build/src/Server/PreCompiler/index.js:47:31)
+    at Server.handleRequest (/app/node_modules/@adonisjs/http-server/build/src/Server/index.js:108:13)
+[2022-10-31T22:46:35.492] [INFO] default - Exception: E_ROW_NOT_FOUND: Row not found
+    at ModelQueryBuilder.firstOrFail (/app/node_modules/@adonisjs/lucid/build/src/Orm/QueryBuilder/index.js:426:19)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at TopicsController.update (/app/app/Controllers/Http/TopicsController.ts:48:21)
+    at Object.PreCompiler.runRouteHandler [as fn] (/app/node_modules/@adonisjs/http-server/build/src/Server/PreCompiler/index.js:47:31)
+    at Server.handleRequest (/app/node_modules/@adonisjs/http-server/build/src/Server/index.js:108:13)
+[2022-10-31T22:47:04.671] [INFO] default - Topic with id: 101 was Not Found. Try with other ID.

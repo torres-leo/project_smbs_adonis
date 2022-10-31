@@ -19,10 +19,12 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+// import { topicSchema, validateSchema } from "../validations"
 
 Route.group(() => {
 
   Route.get('/', 'TopicsController.getTopics')
+  // Route.get('/:id', 'TopicsController.getTopic')
   Route.get('/:id', 'TopicsController.getTopic')
   Route.post('/', 'TopicsController.create')
   Route.patch('/:id', 'TopicsController.update')
