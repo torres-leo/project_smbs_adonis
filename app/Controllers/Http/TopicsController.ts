@@ -40,32 +40,25 @@ export default class TopicsController {
 
 
   public async update({ request, params, response }: HttpContextContract) {
-    // topic.description = request.input("description")
-    // topic.title = request.input("title")
+
     try {
       const payload = await request.validate({ schema: topicSchemaValidator })
       const topic = await Topic.findOrFail(params.id)
       topic.merge(payload)
       await topic.save()
     } catch (error) {
-      response.badRequest({ message: `Failed to get Topic: ${params.id}`, error: error.message })
-      logger.error(error)
+      response.badRequest({ message: `Failed to update Topic: ${params.id}`, error: error.messages || error.message })
+      logger.error(error.messages || "Topic Not Found...", error.message)
     }
   }
 
   public async delete({ response, params }: HttpContextContract) {
     try {
       const topic = await Topic.findOrFail(params.id)
-      topic.delete()
-      return response.status(202).send("Topic deleted")
+      await topic.delete()
     } catch (error) {
-      // if (error == "Exception: E_ROW_NOT_FOUND: Row not found") {
-      //   logger.info(`Topic with id: ${params.id} was Not Found. Try with other ID.`)
-      //   response.badRequest(error)
-      //   return
-      // }
-      logger.error(error)
-      response.badRequest(error)
+      response.badRequest({ message: `Failed to delete Topic: ${params.id}.`, error: error.message })
+      logger.error(`Failed to delete Topic: ${params.id}`, error.message)
     }
   }
 }
