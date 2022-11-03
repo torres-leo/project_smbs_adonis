@@ -4,14 +4,19 @@ import { logger } from '../../../helpers/default.logger';
 
 export default class TopicsController {
 
-  public async getTopics({ request }) {
+  public async getTopics({ request, response }) {
     const page = request.input('page', 1);
     const limit = request.input('limit', 20);
     const title = request.input("title");
-    if (title) {
-      return await Topic.query().where("title", title);
-    } else {
-      return await Topic.query().paginate(page, limit);
+    try {
+      if (title) {
+        return await Topic.query().where("title", title);
+      } else {
+        return await Topic.query().paginate(page, limit);
+      }
+    } catch (error) {
+      response.badRequest({ message: "Failed to get Topics", error: error })
+      logger.error("Failed to get Topics", error)
     }
   }
 
