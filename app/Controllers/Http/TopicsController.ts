@@ -1,53 +1,61 @@
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import Topic from "App/Models/Topic";
+import { logger } from '../../../helpers/default.logger';
 
 export default class TopicsController {
+
   public async getTopics({ request }) {
-    const page = request.input('page', 1)
-    const limit = 20
-    const topics = await Topic.query().paginate(page, limit)
-    return topics
+    const page = request.input('page', 1);
+    const limit = request.input('limit', 20);
+    const title = request.input("title");
+    if (title) {
+      return await Topic.query().where("title", title);
+    } else {
+      return await Topic.query().paginate(page, limit);
+    }
   }
 
-  public async getTopic({ params }: HttpContextContract) {
+  public async getTopic({ params, response }: HttpContextContract) {
     try {
-      const topic = await Topic.findOrFail(params.id)
-      return topic
-
+      const topic = await Topic.findOrFail(params.id);
+      return topic;
     } catch (error) {
-      if (error == "Exception: E_ROW_NOT_FOUND: Row not found") return `Topic with id: ${params.id} was Not Found. Try with other ID.`
-      console.log(error)
+      response.status(404).send("Failed to get Topic", error);
+      logger.info("Failed to get Topic:", error);
     }
   }
 
   public async create({ request, response }: HttpContextContract) {
+    const { title, description } = request.body();
     try {
-      const { title, description } = request.body()
-      Topic.create({ title, description })
-      return response.created("Topic Created.")
+      await Topic.create({ title, description });
     }
     catch (error) {
-      console.log("Failed to create Topic", error)
+      response.badRequest({ message: "Failed to create Topic... ", error: error.message });
+      logger.error('Failed to create Topic... ', error.message);
     }
   }
 
-  public async update({ request, response, params }: HttpContextContract) {
-    const topic = await Topic.findOrFail(params.id)
-    topic.title = request.input("title")
-    topic.description = request.input("description")
-    topic.save()
-    return response.status(202).send(topic)
+  public async update({ request, params, response }: HttpContextContract) {
+    try {
+      const topic = await Topic.findOrFail(params.id);
+      topic.title = request.input('title')
+      topic.description = request.input('description')
+      await topic.save();
+      return topic;
+    } catch (error) {
+      response.badRequest({ message: `Failed to update Topic: ${params.id}`, error: error.message });
+      logger.error(`Topic: "${params.id}" Not Found...`, error.message);
+    }
   }
 
   public async delete({ response, params }: HttpContextContract) {
     try {
-      const topic = await Topic.findOrFail(params.id)
-      topic.delete()
-      return response.status(202).send("Topic deleted")
+      const topic = await Topic.findOrFail(params.id);
+      await topic.delete();
     } catch (error) {
-      if (error == "Exception: E_ROW_NOT_FOUND: Row not found") return `Topic with id: ${params.id} was Not Found. Try with other ID.`
-      console.log(error)
+      response.badRequest({ message: `Failed to delete Topic: ${params.id}.`, error: error.message });
+      logger.error(`Failed to delete Topic: ${params.id}`, error.message);
     }
   }
 }
